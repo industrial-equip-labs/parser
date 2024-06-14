@@ -14,13 +14,15 @@ program
       process.exit(1);
     }
 
-    const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/g;
-    const emails = fileContent.match(emailRegex);
+    const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gm;
+    let emails = fileContent.match(emailRegex);
 
     if (!emails) {
       console.error("No emails were found");
       return;
     }
+
+    email = emails.map((email) => email.toLowerCase());
 
     const uniqueEmails = Array.from(new Set(emails));
     fs.writeFileSync(options.output || "parsed-emails.txt", uniqueEmails.join("\n"));
